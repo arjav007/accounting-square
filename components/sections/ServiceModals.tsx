@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-type ModalId = 'mgmt' | 'bk' | 'ctrl' | null
+// Added 'tax' to the allowed Modal IDs
+type ModalId = 'mgmt' | 'bk' | 'ctrl' | 'tax' | null
 
 export default function ServiceModals() {
   const [activeModal, setActiveModal] = useState<ModalId>(null)
@@ -178,6 +179,51 @@ export default function ServiceModals() {
             </div>
           </div>
         )}
+
+        {/* NEW: Global Taxation */}
+        {activeModal === 'tax' && (
+          <div className="svc-modal-inner">
+            <div className="svc-modal-header" style={{ background: 'linear-gradient(135deg,#0D2340,#1b4b5a)' }}>
+              <button className="svc-close" onClick={close}>✕</button>
+              <div className="svc-modal-tag">Compliance</div>
+              <div className="svc-modal-title">Global <em>Taxation</em></div>
+              <p className="svc-modal-lead">
+                Navigating cross-border tax complexities requires deep expertise. We ensure your global operations remain compliant, tax-efficient, and structurally sound across multiple jurisdictions.
+              </p>
+              <div className="svc-modal-meta">
+                <div className="svc-meta-chip">🌍 Multi-Jurisdiction</div>
+                <div className="svc-meta-chip">🤝 DTAA Experts</div>
+                <div className="svc-meta-chip">📉 Tax Optimization</div>
+                <div className="svc-meta-chip">🛡 Penalty Prevention</div>
+              </div>
+            </div>
+            <div className="svc-modal-body">
+              <div className="svc-body-grid">
+                <div>
+                  <div className="svc-sec-label">What&rsquo;s Included</div>
+                  <ul className="svc-deliverables">
+                    <li><div className="svc-del-icon" style={{ background: 'rgba(24,88,135,.1)' }}>🏛</div><div className="svc-del-text"><strong>Corporate Tax Filing</strong><span>Complete tax management for India, US, UK, Dubai, Norway, and China</span></div></li>
+                    <li><div className="svc-del-icon" style={{ background: 'rgba(48,184,67,.1)' }}>📜</div><div className="svc-del-text"><strong>DTAA Management</strong><span>Leveraging Double Taxation Avoidance Agreements to optimize global liabilities</span></div></li>
+                    <li><div className="svc-del-icon" style={{ background: 'rgba(24,88,135,.1)' }}>🔄</div><div className="svc-del-text"><strong>Transfer Pricing</strong><span>Structuring and documenting inter-company transactions for compliance</span></div></li>
+                    <li><div className="svc-del-icon" style={{ background: 'rgba(48,184,67,.1)' }}>🛒</div><div className="svc-del-text"><strong>Indirect Taxes</strong><span>Accurate calculation and filing of GST, VAT, and Sales Tax across regions</span></div></li>
+                  </ul>
+                </div>
+                <div>
+                  <div className="svc-sec-label">Why It Matters</div>
+                  <div className="svc-trust-items">
+                    <div className="svc-trust-item"><div className="svc-trust-icon" style={{ background: 'rgba(24,88,135,.1)' }}>🛡</div><div><div className="svc-trust-title">Risk Mitigation</div><div className="svc-trust-desc">Cross-border tax errors carry heavy penalties. We keep your business protected and fully compliant globally.</div></div></div>
+                    <div className="svc-trust-item"><div className="svc-trust-icon" style={{ background: 'rgba(48,184,67,.1)' }}>💡</div><div><div className="svc-trust-title">Optimized Structure</div><div className="svc-trust-desc">Through deep knowledge of treaties like DTAA, we ensure you don't pay more tax than is legally required.</div></div></div>
+                  </div>
+                </div>
+              </div>
+              <div className="svc-modal-cta">
+                <div><div className="svc-cta-title">Need cross-border tax guidance?</div><div className="svc-cta-sub">Let&rsquo;s discuss your international tax structure and requirements.</div></div>
+                <Link href="/contact" className="btn-primary" onClick={close} style={{ textDecoration: 'none' }}>Start the Conversation →</Link>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   )

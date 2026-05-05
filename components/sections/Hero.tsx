@@ -10,13 +10,11 @@ const TICKER_ITEMS = [
   { type: 'service',  text: 'Bookkeeping' },
   { type: 'usp',      text: '✓ 99% Client Retention' },
   { type: 'service',  text: 'Controller Services' },
-  { type: 'cred',     text: 'ICAEW Member' },
   { type: 'usp',      text: '✓ Board Packs by Day 8' },
   { type: 'industry', text: 'SaaS' },
   { type: 'service',  text: 'Financial Reporting' },
   { type: 'usp',      text: '✓ 40+ Global Clients' },
   { type: 'industry', text: 'Real Estate' },
-  { type: 'cred',     text: 'CPA Ontario' },
   { type: 'service',  text: 'Management Accounting' },
   { type: 'usp',      text: '✓ Same-day Response' },
   { type: 'industry', text: 'Private Equity' },
@@ -41,7 +39,16 @@ export default function Hero() {
       if (entries[0].isIntersecting && !countersStarted.current) {
         countersStarted.current = true
         document.querySelectorAll<HTMLElement>('.sbi-counter').forEach(el => {
+          // Check if this is a year (like 2015) vs a quantity
+          const isYear = el.classList.contains('sbi-year')
           const target = parseInt(el.dataset.target || '0', 10)
+          
+          if (isYear) {
+            // Instantly show the year, no animation needed
+            el.textContent = String(target)
+            return
+          }
+
           const duration = 1400
           const start = performance.now()
           const tick = (now: number) => {
@@ -102,7 +109,6 @@ export default function Hero() {
         {/* Right */}
         <div className="hero-right">
           <div className="hero-img-card">
-            {/* Added relative positioning to parent and implemented Next.js Image */}
             <div className="hero-img-inner" style={{ position: 'relative', width: '100%', height: '100%' }}>
               <Image
                 src="/start.png"
@@ -133,19 +139,27 @@ export default function Hero() {
       <div className="stats-band" id="statsBand">
         <div className="stats-band-bg" />
         <div className="stats-band-inner">
-          {STATS.map((s) => (
-            <div className="stats-band-item" key={s.label}>
-              <div className="sbi-eyebrow">{s.eyebrow}</div>
-              <div className="sbi-num-row">
-                <div className="sbi-num">
-                  <span className="sbi-counter" data-target={s.value}>0</span>
-                  {s.suffix && <sup>{s.suffix}</sup>}
+          {STATS.map((s) => {
+            const isYearValue = s.value > 2000
+            return (
+              <div className="stats-band-item" key={s.label}>
+                <div className="sbi-eyebrow">{s.eyebrow}</div>
+                <div className="sbi-num-row">
+                  <div className="sbi-num">
+                    <span 
+                      className={`sbi-counter ${isYearValue ? 'sbi-year' : ''}`} 
+                      data-target={s.value}
+                    >
+                      {isYearValue ? s.value : '0'}
+                    </span>
+                    {s.suffix && <sup>{s.suffix}</sup>}
+                  </div>
+                  <div className="sbi-label">{s.label}</div>
                 </div>
-                <div className="sbi-label">{s.label}</div>
+                <div className="sbi-detail">{s.detail}</div>
               </div>
-              <div className="sbi-detail">{s.detail}</div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

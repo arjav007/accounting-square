@@ -7,11 +7,19 @@ const BookIcon = () => (
     <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
   </svg>
 )
+
 const BarChartIcon = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
     <line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/>
     <line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/>
     <line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/>
+  </svg>
+)
+
+// Added Globe Icon for the new Taxation card
+const GlobeIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
   </svg>
 )
 
@@ -37,8 +45,8 @@ export default function Services() {
           <h2 className="section-title">Built for <em>modern</em><br />financial complexity</h2>
         </div>
         <p style={{ color: 'var(--stone)', fontSize: '.95rem', lineHeight: 1.8, alignSelf: 'end' }}>
-          Three core disciplines, deeply integrated. Whether you&rsquo;re scaling fast or seeking
-          strategic clarity, our services adapt to where you are.
+          Core disciplines, deeply integrated. Whether you&rsquo;re scaling fast, navigating cross-border tax, 
+          or seeking strategic clarity, our services adapt to where you are.
         </p>
       </div>
 
@@ -68,7 +76,6 @@ export default function Services() {
               <div className="rt-row"><span className="rt-label">Board pack ready</span><span className="rt-badge">Day 8</span></div>
               <div className="rt-row"><span className="rt-label">Forecast update</span><span className="rt-badge">Day 10</span></div>
             </div>
-            {/* Logic: Stop propagation so the card click doesn't trigger twice */}
             <div 
               className="service-link" 
               style={{ cursor: 'pointer' }}
@@ -122,6 +129,30 @@ export default function Services() {
             Learn more →
           </div>
         </div>
+
+        {/* NEW: Global Taxation */}
+        <div className="service-card" data-reveal onClick={() => openModal('tax')}>
+          <div className="service-card-bg card-bg-3" />
+          <div className="sc-hint">↗</div>
+          {/* Updated icon wrapper with the grey background color */}
+          <div className="service-icon" style={{ color: '#1a6b3a', backgroundColor: 'rgba(0, 0, 0, 0.05)' }}>
+            <GlobeIcon />
+          </div>
+          <div className="service-tag">Compliance</div>
+          <div className="service-name">Global Taxation</div>
+          <p className="service-desc">
+            Expert handling of cross-border tax complexities. Comprehensive tax management for 
+            <strong> India, US, UK, Dubai, Norway, and China</strong> with deep expertise in DTAA compliance.
+          </p>
+          <div 
+            className="service-link" 
+            style={{ marginTop: 20, cursor: 'pointer' }} 
+            onClick={(e) => { e.stopPropagation(); openModal('tax'); }}
+          >
+            Learn more →
+          </div>
+        </div>
+
       </div>
     </section>
   )
@@ -129,7 +160,6 @@ export default function Services() {
 
 /**
  * Helper — calls the global openModal defined in ServiceModals.tsx
- * Since we added ServiceModals to layout.tsx, this will trigger the popup.
  */
 function openModal(id: string) {
   if (typeof window !== 'undefined' && (window as any).__openServiceModal) {

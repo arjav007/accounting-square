@@ -10,13 +10,13 @@ export const TEAM_MEMBERS = [
     photoPosition: 'center top',
     quote:
       'Financial clarity isn\'t just about the numbers — it\'s about giving leadership the confidence to act decisively.',
-    bio: 'ICAEW-qualified accountant with over 14 years of experience across management accounting, fractional finance, and strategic advisory for international businesses. Led finance functions for PE-backed companies across the UK, Singapore, and the Middle East.',
-    stats: [{ label: 'yrs experience', value: '14+' }, { label: 'ICAEW', highlight: true }],
+    bio: 'Chartered Accountant (CA) with experience across management accounting, fractional finance, and strategic advisory for international businesses. Led finance functions for PE-backed companies across the UK, Singapore, and the Middle East.',
+    stats: [{ label: 'Since 2015', value: 'Practice' }, { label: 'CA', highlight: true }],
     tags: [
       { label: 'Management Accounts', highlight: true },
       { label: 'Financial Strategy', highlight: true },
       { label: 'IFRS' },
-      { label: 'SaaS Finance' },
+      { label: 'Global Taxation' },
       { label: 'Board Reporting' },
       { label: 'FP&A' },
     ],
@@ -30,13 +30,13 @@ export const TEAM_MEMBERS = [
     photoPosition: 'center 30%',
     quote:
       'Numbers tell the story of a business — my job is to make sure that story is accurate, timely, and decision-ready.',
-    bio: 'Chartered Accountant with 9+ years across financial services and the Indian treasury sector. Previously at CitiCorp Services, Morgan Stanley, Tata Trusts, and Desai Haribhakti. Specialises in MIS dashboards, capital planning, tax compliance, and working with global CFO teams. Based in Mumbai.',
-    stats: [{ label: 'yrs experience', value: '9+' }, { label: 'CA India', highlight: true }],
+    bio: 'Chartered Accountant (CA) with experience across financial services and the Indian treasury sector. Previously at CitiCorp Services, Morgan Stanley, Tata Trusts, and Desai Haribhakti. Specialises in MIS dashboards, capital planning, tax compliance, and working with global CFO teams. Based in Mumbai.',
+    stats: [{ label: 'Since 2015', value: 'Practice' }, { label: 'CA', highlight: true }],
     tags: [
       { label: 'Controller Services', highlight: true },
       { label: 'PE-backed Firms', highlight: true },
       { label: 'US GAAP' },
-      { label: 'Compliance' },
+      { label: 'Tax Compliance' },
       { label: 'Real Estate' },
       { label: 'Audit Readiness' },
     ],
@@ -44,11 +44,18 @@ export const TEAM_MEMBERS = [
 ]
 
 export const STATS = [
-  { eyebrow: 'Track record',  value: 12,  suffix: '+', label: 'Years of practice',   detail: 'Serving international clients since 2011' },
-  { eyebrow: 'Client base',   value: 40,  suffix: '+', label: 'Global clients',      detail: 'Active across 12+ countries & 3 time zones' },
-  { eyebrow: 'Sectors covered', value: 8, suffix: '',  label: 'Industries served',   detail: 'SaaS, real estate, PE, professional services & more' },
-  { eyebrow: 'Client loyalty', value: 99, suffix: '%', label: 'Retention rate',      detail: 'Averaged over 5 years of continuous client relationships' },
+  { eyebrow: 'Track record',  value: 2015, suffix: '',   label: 'In practice since', detail: 'Serving international clients for over a decade' },
+  { eyebrow: 'Client base',   value: 40,   suffix: '+',  label: 'Global clients',    detail: 'Active across 12+ countries & 3 time zones' },
+  { eyebrow: 'Sectors covered', value: 8,  suffix: '',   label: 'Industries served', detail: 'SaaS, real estate, PE, professional services & more' },
+  { eyebrow: 'Client loyalty', value: 99,  suffix: '%',  label: 'Retention rate',    detail: 'Averaged over 5 years of continuous client relationships' },
 ]
+
+// Updated to include the Malad, Mumbai focus
+export const OFFICE_ADDRESS = {
+  city: 'Mumbai',
+  area: 'Malad',
+  full: 'Malad, Mumbai, India'
+}
 
 export const TRUST_COUNTRIES = [
   { name: 'United Kingdom' },
@@ -59,6 +66,8 @@ export const TRUST_COUNTRIES = [
   { name: 'Australia' },
   { name: 'United States' },
   { name: 'New Zealand' },
+  { name: 'Norway' },
+  { name: 'China' },
 ]
 
 export const HOW_IT_WORKS = [
@@ -88,15 +97,15 @@ export const HOW_IT_WORKS = [
     title: 'Ongoing Delivery',
     tag: 'Every month',
     desc: 'Regular reporting, proactive insights, dedicated point of contact — on the same schedule, every month, without chasing.',
-    stats: ['Monthly reporting', 'Dedicated contact', 'Proactive insights'],
+    stats: ['Monthly reporting', 'Partner oversight', 'Proactive insights'],
   },
 ]
 
 export const PROMISES = [
   {
     num: '01',
-    title: 'You will always speak to a <em>senior</em>',
-    text: 'No juniors, no handoffs. Every question and every report is handled by <strong>Ankur or Madhuri directly</strong>.',
+    title: 'You will always have <em>senior</em> oversight',
+    text: 'While work is executed by our skilled team, every report and strategy is personally reviewed and guided by <strong>Ankur or Dhwani</strong>.',
   },
   {
     num: '02',
@@ -105,14 +114,14 @@ export const PROMISES = [
   },
   {
     num: '03',
-    title: 'We will be <em>proactive</em>, not reactive',
-    text: 'If we see a cash flow risk or a tax opportunity, we raise it. <strong>You should never discover a problem from us late.</strong>',
+    title: 'Global Tax <em>Expertise</em>',
+    text: 'We handle taxation for <strong>India, US, UK, Dubai, Norway, and China</strong>, including complex <strong>DTAA</strong> management.',
   },
 ]
 
 export const TESTIMONIALS_INLINE = [
   {
-    quote: 'Madhuri gave us CFO-level rigour without the cost. The confidence she built in our numbers is what got us through our Series A.',
+    quote: 'Dhwani gave us CFO-level rigour without the cost. The confidence she built in our numbers is what got us through our Series A.',
     name: 'David R.',
     role: 'Founder, PropTech · Toronto',
     av: 'DR',
@@ -144,11 +153,11 @@ export const FAQS = [
   },
   {
     q: 'Do I work with a junior or a senior accountant?',
-    a: 'You work directly with Ankur or Madhuri — always. We don\'t hand work off to a team. Your relationship, files, and monthly accounts are owned by one of the two founders.',
+    a: 'Work is performed by our qualified team under the direct guidance and rigorous review of Ankur or Dhwani. You get partner-level strategy with dedicated execution.',
   },
   {
-    q: 'We operate across multiple countries. Can you handle that?',
-    a: 'Multi-jurisdiction work is our norm. We serve clients across the UK, UAE, Singapore, Canada, India, Australia, New Zealand, and the US. Multi-currency books and inter-company eliminations are standard.',
+    q: 'Can you handle international taxation?',
+    a: 'Yes. We specialize in tax handling for India, US, UK, Dubai, Norway, and China. We are also experts in DTAA (Double Taxation Avoidance Agreement) to ensure your global operations are tax-efficient.',
   },
   {
     q: 'How quickly do you respond to questions?',
@@ -156,7 +165,7 @@ export const FAQS = [
   },
   {
     q: 'What size of business do you typically work with?',
-    a: 'Our sweet spot is founder-led and PE-backed businesses with turnover between £500k and £20m. We also work with startups needing clean books ahead of a raise.',
+    a: 'Our sweet spot is founder-led and PE-backed businesses with turnover between $500k and $20m. We also work with startups needing clean books ahead of a raise.',
   },
   {
     q: 'How do engagements typically start?',

@@ -73,9 +73,9 @@ export default function Footer() {
             <a href="https://maps.google.com/?q=101+Subhshree+Arcade+Opp+Shivaji+Chowk+Zakaria+Road+Malad+West+Mumbai+400064" target="_blank" rel="noopener noreferrer" className="footer-contact-item">
               <MapIcon /> 101, Subhshree Arcade, Zakaria Road, Malad West, Mumbai 400064
             </a>
-            <a href="https://maps.google.com/?q=14+Bldg+No+3+Sagar+City+Behind+Shalimar+Hotel+Waliv+Vasai+East+Palghar+401208" target="_blank" rel="noopener noreferrer" className="footer-contact-item">
+            {/*<a href="https://maps.google.com/?q=14+Bldg+No+3+Sagar+City+Behind+Shalimar+Hotel+Waliv+Vasai+East+Palghar+401208" target="_blank" rel="noopener noreferrer" className="footer-contact-item">
               <MapIcon /> 14, Bldg No.3, Sagar City, Waliv, Vasai East, Palghar 401208
-            </a>
+  </a>*/}
             {/* <div className="footer-social">
   <a href="https://linkedin.com/company/accountingsquare" target="_blank" rel="noopener noreferrer" className="footer-social-btn" aria-label="LinkedIn">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
