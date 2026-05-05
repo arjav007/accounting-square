@@ -1,7 +1,7 @@
 'use client'
 // components/Footer.tsx
 import Link from 'next/link'
-import { LogoMark } from './Loader'
+import Image from 'next/image'
 
 const scrollTo = (anchor: string) => {
   const el = document.getElementById(anchor)
@@ -15,20 +15,15 @@ export default function Footer() {
       <div className="footer-inner">
         {/* Brand */}
         <div>
-          <div className="footer-logo-wrap">
-            <div style={{ width: 36, height: 36, background: 'var(--ink-soft)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-              <LogoMark size={20} />
-            </div>
-            <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: '1.1rem', fontWeight: 500, color: 'var(--cream)' }}>
-              Accounting Square
-            </span>
+          <div className="footer-logo-wrap" style={{ marginBottom: '12px', display: 'flex' }}>
+            <Image 
+              src="/Accsquare.svg" 
+              alt="Accounting Square Logo" 
+              width={180} 
+              height={35} 
+            />
           </div>
           <p className="footer-tagline">Precision accounting for businesses building across borders.</p>
-          <div className="footer-certs">
-            <span className="footer-cert">🇬🇧 ICAEW</span>
-            <span className="footer-cert">🇺🇸 CPA</span>
-            <span className="footer-cert">🇨🇦 CPA Ontario</span>
-          </div>
         </div>
 
         {/* Services */}
@@ -38,6 +33,8 @@ export default function Footer() {
             <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo('services') }}>Management Accounting</a></li>
             <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo('services') }}>Bookkeeping</a></li>
             <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo('services') }}>Controller Services</a></li>
+            {/* Added Global Taxation here! */}
+            <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo('services') }}>Global Taxation</a></li>
           </ul>
         </div>
 
@@ -60,7 +57,6 @@ export default function Footer() {
               <EmailIcon /> aspl0305@gmail.com
             </a>
             
-            {/* FIXED: Changed outer wrapper from <a> to <div> to prevent nested link errors */}
             <div className="footer-contact-item">
               <PhoneIcon />
               <span>
@@ -71,19 +67,8 @@ export default function Footer() {
             </div>
 
             <a href="https://maps.google.com/?q=101+Subhshree+Arcade+Opp+Shivaji+Chowk+Zakaria+Road+Malad+West+Mumbai+400064" target="_blank" rel="noopener noreferrer" className="footer-contact-item">
-              <MapIcon /> 101, Subhshree Arcade, Zakaria Road, Malad West, Mumbai 400064
+              <MapIcon /> 101, Subhshree Arcade, Zakaria Road, Malad West, Mumbai 400064
             </a>
-            {/*<a href="https://maps.google.com/?q=14+Bldg+No+3+Sagar+City+Behind+Shalimar+Hotel+Waliv+Vasai+East+Palghar+401208" target="_blank" rel="noopener noreferrer" className="footer-contact-item">
-              <MapIcon /> 14, Bldg No.3, Sagar City, Waliv, Vasai East, Palghar 401208
-  </a>*/}
-            {/* <div className="footer-social">
-  <a href="https://linkedin.com/company/accountingsquare" target="_blank" rel="noopener noreferrer" className="footer-social-btn" aria-label="LinkedIn">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-    </svg>
-  </a>
-</div> 
-*/}
           </div>
         </div>
       </div>

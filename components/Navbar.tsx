@@ -2,8 +2,8 @@
 // components/Navbar.tsx
 import { useEffect, useState, useCallback } from 'react'
 import Link from 'next/link'
+import Image from 'next/image' // <-- Added Image import for your new logo
 import { useRouter, usePathname } from 'next/navigation'
-import { LogoMark } from './Loader'
 
 const NAV_LINKS = [
   { label: 'Services',    anchor: 'services' },
@@ -57,10 +57,15 @@ export default function Navbar() {
   return (
     <>
       <nav id="mainNav" className={scrolled ? 'scrolled' : ''}>
-        {/* Logo */}
-        <Link href="/" className="nav-logo">
-          <div className="nav-logo-mark"><LogoMark size={18} /></div>
-          Accounting Square
+        {/* Updated Logo Section */}
+        <Link href="/" className="nav-logo" style={{ display: 'flex', alignItems: 'center' }}>
+          <Image 
+            src="/Accsquare.svg" 
+            alt="Accounting Square Logo" 
+            width={180} 
+            height={35} 
+            priority 
+          />
         </Link>
 
         {/* Desktop links */}

@@ -67,7 +67,8 @@ export default function Hero() {
   }, [])
 
   return (
-    <section className="hero" id="home">
+    <section className="hero" id="home" style={{ paddingTop: 'clamp(100px, 15vh, 140px)' }}>
+      {/* Moved the comment inside the section to fix the JSX root element error */}
       <div className="hero-bg-orb orb-1" />
       <div className="hero-bg-orb orb-2" />
 
@@ -79,17 +80,18 @@ export default function Hero() {
             Precision Accounting · Global Reach
           </div>
           <h1 className="hero-headline">
-            <span>Financial clarity</span>
-            <span>for businesses</span>
-            <span>building <em>across</em></span>
-            <span>borders.</span>
+            <span style={{ display: 'block' }}>Financial clarity</span>
+            <span style={{ display: 'block' }}>for businesses</span>
+            <span style={{ display: 'block' }}>building <em>across</em></span>
+            <span style={{ display: 'block' }}>borders.</span>
           </h1>
           <p className="hero-sub">
             Management accounting, bookkeeping, and controller services for founder-led
             and PE-backed companies across 12+ countries. Day 5 management accounts.
             Every month. No exceptions.
           </p>
-          <div className="hero-actions">
+          {/* Added flexWrap so buttons stack nicely on tiny mobile screens */}
+          <div className="hero-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
             <Link href="/contact" className="btn-primary">
               Start a Conversation <span className="btn-arrow">→</span>
             </Link>
@@ -107,21 +109,21 @@ export default function Hero() {
         </div>
 
         {/* Right */}
-        <div className="hero-right">
+        <div className="hero-right" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <div className="hero-img-card">
-            <div className="hero-img-inner" style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <div className="hero-img-inner" style={{ position: 'relative', width: '100%', height: '100%', minHeight: '250px' }}>
               <Image
                 src="/start.png"
                 alt="Global financial partner for ambitious businesses"
                 fill
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: 'cover', borderRadius: '16px' }}
                 priority
               />
             </div>
           </div>
 
-          {/* Ticker */}
-          <div className="hero-ticker-row">
+          {/* Ticker - Added strict overflow hiding so ticks don't float around on mobile */}
+          <div className="hero-ticker-row" style={{ overflow: 'hidden', width: '100%', borderRadius: '8px' }}>
             <div className="htr-track">
               <div className="htr-inner">
                 {TICKER.map((item, i) => (

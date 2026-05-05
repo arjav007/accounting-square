@@ -11,7 +11,7 @@ export const TEAM_MEMBERS = [
     quote:
       'Financial clarity isn\'t just about the numbers — it\'s about giving leadership the confidence to act decisively.',
     bio: 'Chartered Accountant (CA) with experience across management accounting, fractional finance, and strategic advisory for international businesses. Led finance functions for PE-backed companies across the UK, Singapore, and the Middle East.',
-    stats: [{ label: 'Since 2015', value: 'Practice' }, { label: 'CA', highlight: true }],
+    stats: [{ label: 'Since 2015', value: 'Practice' }, { label: 'Chartered Accountant', highlight: true }],
     tags: [
       { label: 'Management Accounts', highlight: true },
       { label: 'Financial Strategy', highlight: true },
@@ -31,7 +31,7 @@ export const TEAM_MEMBERS = [
     quote:
       'Numbers tell the story of a business — my job is to make sure that story is accurate, timely, and decision-ready.',
     bio: 'Chartered Accountant (CA) with experience across financial services and the Indian treasury sector. Previously at CitiCorp Services, Morgan Stanley, Tata Trusts, and Desai Haribhakti. Specialises in MIS dashboards, capital planning, tax compliance, and working with global CFO teams. Based in Mumbai.',
-    stats: [{ label: 'Since 2015', value: 'Practice' }, { label: 'CA', highlight: true }],
+    stats: [{ label: 'Since 2015', value: 'Practice' }, { label: 'Chartered Accountant', highlight: true }],
     tags: [
       { label: 'Controller Services', highlight: true },
       { label: 'PE-backed Firms', highlight: true },
