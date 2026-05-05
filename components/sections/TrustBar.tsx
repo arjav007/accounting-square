@@ -19,7 +19,7 @@ export function TrustBar() {
   const items = [...COUNTRIES, ...COUNTRIES]
   return (
     <div className="trust-bar">
-      <div className="trust-bar-label">Trusted by businesses in</div>
+      <div className="trust-bar-label">Serving in Countries</div>
       <div className="trust-bar-flags">
         <div className="trust-flags-track">
           {items.map((c, i) => (

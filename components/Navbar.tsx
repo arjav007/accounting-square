@@ -58,7 +58,11 @@ export default function Navbar() {
     <>
       <nav id="mainNav" className={scrolled ? 'scrolled' : ''}>
         {/* Updated Logo Section */}
-        <Link href="/" className="nav-logo" style={{ display: 'flex', alignItems: 'center' }}>
+        <Link 
+          href="/" 
+          className="nav-logo" 
+          style={{ display: 'flex', alignItems: 'center', marginLeft: '-8px' }}
+        >
           <Image 
             src="/Accsquare.svg" 
             alt="Accounting Square Logo" 
