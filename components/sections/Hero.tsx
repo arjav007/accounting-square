@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { STATS } from '@/lib/data'
 import { useEffect, useRef } from 'react'
+import * as THREE from 'three'
 
 const TICKER_ITEMS = [
   { type: 'usp',      text: '✓ Day 5 Management Accounts' },
@@ -29,9 +30,10 @@ const TICKER = [...TICKER_ITEMS, ...TICKER_ITEMS]
 
 export default function Hero() {
   const countersStarted = useRef(false)
+  const globeCanvasRef = useRef<HTMLCanvasElement>(null)
 
+  // STATS ANIMATION
   useEffect(() => {
-    // Trigger stat counters when stats band is in view
     const band = document.getElementById('statsBand')
     if (!band) return
 
@@ -39,12 +41,10 @@ export default function Hero() {
       if (entries[0].isIntersecting && !countersStarted.current) {
         countersStarted.current = true
         document.querySelectorAll<HTMLElement>('.sbi-counter').forEach(el => {
-          // Check if this is a year (like 2015) vs a quantity
           const isYear = el.classList.contains('sbi-year')
           const target = parseInt(el.dataset.target || '0', 10)
-          
+
           if (isYear) {
-            // Instantly show the year, no animation needed
             el.textContent = String(target)
             return
           }
@@ -66,14 +66,212 @@ export default function Hero() {
     return () => observer.disconnect()
   }, [])
 
+  // 3D GLOBE INITIALIZATION
+  useEffect(() => {
+    if (!globeCanvasRef.current) return
+    const canvas = globeCanvasRef.current
+    const container = canvas.parentElement
+    if (!container) return
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2))
+    renderer.setClearColor(0x000000, 0)
+
+    // Use SRGB output so the photo texture's ocean blue renders at full vibrancy
+    renderer.outputColorSpace = THREE.SRGBColorSpace
+
+    const scene  = new THREE.Scene()
+    const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 100)
+    camera.position.set(0, 0.10, 5.2)
+
+    // ---------- Lighting — matched to reference HTML values ----------
+    scene.add(new THREE.AmbientLight(0xffffff, 1.55))
+    const sun = new THREE.DirectionalLight(0xffffff, 0.70)
+    sun.position.set(3.2, 1.4, 3)
+    scene.add(sun)
+    const rim = new THREE.DirectionalLight(0xa8c8e8, 0.30)
+    rim.position.set(-3, 0.5, -2)
+    scene.add(rim)
+
+    // ---------- Earth ----------
+    const earthMat = new THREE.MeshPhongMaterial({
+      color: 0x1a3a5c,
+      shininess: 0,
+      specular: new THREE.Color(0x000000)
+    })
+    const earthGeo = new THREE.SphereGeometry(1, 96, 96)
+    const earth = new THREE.Mesh(earthGeo, earthMat)
+    earth.rotation.z = 0.41
+    scene.add(earth)
+
+    // Procedural dotted-globe fallback
+    function buildDotTexture() {
+      const c = document.createElement('canvas')
+      c.width = 2048; c.height = 1024
+      const g = c.getContext('2d')
+      if (!g) return null
+      g.fillStyle = '#0e2a47'; g.fillRect(0, 0, c.width, c.height)
+      g.fillStyle = '#7fb8e6'
+      for (let lat = -88; lat <= 88; lat += 2.6) {
+        const circ  = Math.cos(lat * Math.PI / 180)
+        const count = Math.max(2, Math.floor(160 * circ))
+        for (let i = 0; i < count; i++) {
+          const lng = -180 + (i + 0.5) * 360 / count
+          const x = (lng + 180) / 360 * c.width
+          const y = (90 - lat) / 180 * c.height
+          g.beginPath(); g.arc(x, y, 2.4, 0, Math.PI * 2); g.fill()
+        }
+      }
+      const tex = new THREE.CanvasTexture(c)
+      tex.anisotropy = 8
+      return tex
+    }
+
+    const loader = new THREE.TextureLoader()
+    loader.crossOrigin = 'anonymous'
+    let generatedTexture: THREE.CanvasTexture | null = null
+
+    loader.load(
+      'https://threejs.org/examples/textures/planets/earth_atmos_2048.jpg',
+      function(tex) {
+        tex.anisotropy = 8
+        tex.colorSpace = THREE.SRGBColorSpace
+        earthMat.map = tex
+        earthMat.color.setHex(0xffffff)
+        earthMat.needsUpdate = true
+      },
+      undefined,
+      function() {
+        generatedTexture = buildDotTexture()
+        if (generatedTexture) {
+          earthMat.map = generatedTexture
+          earthMat.color.setHex(0xffffff)
+          earthMat.needsUpdate = true
+        }
+      }
+    )
+
+    // ---------- Three crossed atom-orbits (brand green) ----------
+    const ringColor = 0x30b843
+    const orbitDefs = [
+      {tilt:[1.30, 0, -0.20], radius:1.30, speed: 0.55, sats:[Math.PI*0.30]},
+      {tilt:[1.30, 0, -1.25], radius:1.30, speed:-0.42, sats:[Math.PI*1.15]},
+      {tilt:[1.30, 0,  0.85], radius:1.30, speed: 0.32, sats:[Math.PI*0.70]}
+    ]
+
+    const orbitGeometries: THREE.TorusGeometry[] = []
+    const orbitMaterials: THREE.MeshBasicMaterial[] = []
+    const satGeometries: THREE.SphereGeometry[] = []
+    const satMaterials: THREE.MeshBasicMaterial[] = []
+
+    const orbits = orbitDefs.map(function(def) {
+      const group = new THREE.Group()
+      group.rotation.order = 'ZYX'
+      group.rotation.set(def.tilt[0], def.tilt[1], def.tilt[2])
+
+      const ringGeo = new THREE.TorusGeometry(def.radius, 0.008, 12, 240)
+      const ringMat = new THREE.MeshBasicMaterial({color: ringColor, transparent: true, opacity: 0.95})
+      orbitGeometries.push(ringGeo)
+      orbitMaterials.push(ringMat)
+
+      const ring = new THREE.Mesh(ringGeo, ringMat)
+      group.add(ring)
+
+      const sats = def.sats.map(function(phase) {
+        const satGeo = new THREE.SphereGeometry(0.07, 24, 24)
+        const satMat = new THREE.MeshBasicMaterial({color: ringColor})
+        satGeometries.push(satGeo)
+        satMaterials.push(satMat)
+
+        const sat = new THREE.Mesh(satGeo, satMat)
+        group.add(sat)
+        return {mesh: sat, phase: phase}
+      })
+      scene.add(group)
+      return {group: group, sats: sats, radius: def.radius, speed: def.speed}
+    })
+
+    // ---------- Smooth, clip-free responsive sizing ----------
+    let resizeObserver: ResizeObserver | null = null
+
+    function resize() {
+      const rect = container?.getBoundingClientRect()
+      if (!rect) return
+      const w = Math.max(1, rect.width), h = Math.max(1, rect.height)
+      renderer.setSize(w, h, false)
+      camera.aspect = w / h
+
+      const Rext = 1.35
+      const fov = camera.fov * Math.PI / 180
+      const tanHalf = Math.tan(fov / 2)
+      const frac = 0.90
+      const zHeight = Rext / (frac * tanHalf)
+      const zWidth  = (Rext * h) / (frac * w * tanHalf)
+      let z = Math.max(zWidth, zHeight)
+      z = Math.max(3.6, Math.min(11, z))
+
+      camera.position.z = z
+      camera.updateProjectionMatrix()
+    }
+
+    if (typeof window !== 'undefined' && window.ResizeObserver) {
+      resizeObserver = new ResizeObserver(resize)
+      if (container) resizeObserver.observe(container)
+    } else {
+      window.addEventListener('resize', resize)
+    }
+    resize()
+
+    // ---------- Animate ----------
+    let t = 0
+    let lastTime = performance.now()
+    let reqId: number
+
+    function tick(now: number) {
+      const dt = Math.min(0.05, (now - lastTime) / 1000)
+      lastTime = now
+      t += dt
+      earth.rotation.y += dt * 0.10
+
+      orbits.forEach(function(o) {
+        o.sats.forEach(function(s) {
+          const a = s.phase + t * o.speed
+          s.mesh.position.set(Math.cos(a) * o.radius, Math.sin(a) * o.radius, 0)
+        })
+      })
+
+      renderer.render(scene, camera)
+      reqId = requestAnimationFrame(tick)
+    }
+    reqId = requestAnimationFrame(tick)
+
+    // ---------- Cleanup on Unmount ----------
+    return () => {
+      cancelAnimationFrame(reqId)
+      if (resizeObserver) resizeObserver.disconnect()
+      window.removeEventListener('resize', resize)
+
+      earthGeo.dispose()
+      earthMat.dispose()
+      if (earthMat.map) earthMat.map.dispose()
+      if (generatedTexture) generatedTexture.dispose()
+
+      orbitGeometries.forEach(geo => geo.dispose())
+      orbitMaterials.forEach(mat => mat.dispose())
+      satGeometries.forEach(geo => geo.dispose())
+      satMaterials.forEach(mat => mat.dispose())
+
+      renderer.dispose()
+    }
+  }, [])
+
   return (
     <section className="hero" id="home" style={{ paddingTop: 'clamp(100px, 15vh, 140px)' }}>
-      {/* Moved the comment inside the section to fix the JSX root element error */}
       <div className="hero-bg-orb orb-1" />
       <div className="hero-bg-orb orb-2" />
 
       <div className="hero-top">
-        {/* Left */}
+        {/* Left Side */}
         <div className="hero-left">
           <div className="hero-eyebrow">
             <span className="eyebrow-dot" />
@@ -90,8 +288,9 @@ export default function Hero() {
             and PE-backed companies across 12+ countries. Day 5 management accounts.
             Every month. No exceptions.
           </p>
-          {/* Added flexWrap so buttons stack nicely on tiny mobile screens */}
-          <div className="hero-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}>
+
+          {/* Buttons */}
+          <div className="hero-actions" style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '32px' }}>
             <Link href="/contact" className="btn-primary">
               Start a Conversation <span className="btn-arrow">→</span>
             </Link>
@@ -106,24 +305,9 @@ export default function Hero() {
               Our Services <span className="btn-arrow">→</span>
             </a>
           </div>
-        </div>
 
-        {/* Right */}
-        <div className="hero-right" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div className="hero-img-card">
-            <div className="hero-img-inner" style={{ position: 'relative', width: '100%', height: '100%', minHeight: '250px' }}>
-              <Image
-                src="/start.png"
-                alt="Global financial partner for ambitious businesses"
-                fill
-                style={{ objectFit: 'cover', borderRadius: '16px' }}
-                priority
-              />
-            </div>
-          </div>
-
-          {/* Ticker - Added strict overflow hiding so ticks don't float around on mobile */}
-          <div className="hero-ticker-row" style={{ overflow: 'hidden', width: '100%', borderRadius: '8px' }}>
+          {/* Certificate/Ticker Bar */}
+          <div className="hero-ticker-row" style={{ overflow: 'hidden', width: '100%', borderRadius: '8px', maxWidth: '650px' }}>
             <div className="htr-track">
               <div className="htr-inner">
                 {TICKER.map((item, i) => (
@@ -133,6 +317,25 @@ export default function Hero() {
                 ))}
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Right Side - Three.js Canvas Container */}
+        <div className="hero-right" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ position: 'relative', width: 'min(620px, 90vw)', height: 'min(620px, 60vh)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <canvas
+              ref={globeCanvasRef}
+              id="heroGlobe"
+              aria-label="Rotating 3D globe with orbital paths"
+              role="img"
+              style={{
+                display: 'block',
+                width: '100%',
+                height: '100%',
+                outline: 'none',
+                filter: 'drop-shadow(0 24px 56px rgba(20,54,91,.22)) drop-shadow(0 4px 12px rgba(20,54,91,.12))'
+              }}
+            />
           </div>
         </div>
       </div>
@@ -148,8 +351,8 @@ export default function Hero() {
                 <div className="sbi-eyebrow">{s.eyebrow}</div>
                 <div className="sbi-num-row">
                   <div className="sbi-num">
-                    <span 
-                      className={`sbi-counter ${isYearValue ? 'sbi-year' : ''}`} 
+                    <span
+                      className={`sbi-counter ${isYearValue ? 'sbi-year' : ''}`}
                       data-target={s.value}
                     >
                       {isYearValue ? s.value : '0'}
