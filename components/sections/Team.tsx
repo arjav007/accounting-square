@@ -49,7 +49,8 @@ export default function Team() {
           <div className="team-card" data-reveal key={member.id}>
             <div className="tc-inner">
               {/* Photo */}
-              <div className="tc-left">
+              {/* FIXED: Added position: 'relative' to guarantee Next.js fill works perfectly */}
+              <div className="tc-left" style={{ position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 30%, rgba(24,88,135,.12) 0%, transparent 70%)', zIndex: 1 }} />
                 <Image
                   src={member.photo}
@@ -71,7 +72,6 @@ export default function Team() {
                     </div>
                   </div>
                   
-                  {/* FIXED: Added noreferrer to the target="_blank" link */}
                   <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="tc-linkedin">
                     <LinkedInIcon /> LinkedIn
                   </a>
