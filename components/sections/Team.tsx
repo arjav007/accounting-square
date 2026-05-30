@@ -49,13 +49,23 @@ export default function Team() {
           <div className="team-card" data-reveal key={member.id}>
             <div className="tc-inner">
               {/* Photo */}
-              {/* FIXED: Added position: 'relative' to guarantee Next.js fill works perfectly */}
-              <div className="tc-left" style={{ position: 'relative', overflow: 'hidden' }}>
+              <div 
+                className="tc-left" 
+                style={{ 
+                  position: 'relative', 
+                  overflow: 'hidden',
+                  width: '100%',
+                  height: '100%',
+                  minHeight: '350px', /* Forces Safari to give the container physical height on mobile */
+                  transform: 'translateZ(0)', /* Forces hardware acceleration for iOS rendering bugs */
+                }}
+              >
                 <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 30%, rgba(24,88,135,.12) 0%, transparent 70%)', zIndex: 1 }} />
                 <Image
                   src={member.photo}
                   alt={member.name}
                   fill
+                  priority /* Bypasses iOS Safari's aggressive lazy loading */
                   style={{ objectFit: 'cover', objectPosition: member.photoPosition }}
                   sizes="(max-width: 600px) 100vw, 240px"
                 />
