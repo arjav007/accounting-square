@@ -53,8 +53,8 @@ export default function Footer() {
         <div>
           <div className="footer-col-title">Get in Touch</div>
           <div className="footer-contact-items">
-            <a href="mailto:aspl0305@gmail.com" className="footer-contact-item">
-              <EmailIcon /> aspl0305@gmail.com
+            <a href="mailto:info@accsquare.com" className="footer-contact-item">
+              <EmailIcon /> info@accsquare.com
             </a>
             
             <div className="footer-contact-item">

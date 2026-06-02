@@ -35,7 +35,7 @@ export default function ContactPage() {
               </div>
             </div>
 
-            <a href="mailto:aspl0305@gmail.com" className="contact-method">
+            <a href="mailto:info@accsquare.com" className="contact-method">
               <div className="cm-icon cm-sage">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
@@ -43,7 +43,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <div className="cm-label">Email us directly</div>
-                <div className="cm-value">aspl0305@gmail.com</div>
+                <div className="cm-value"> info@accsquare.com</div>
               </div>
             </a>
 
