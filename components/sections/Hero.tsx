@@ -329,7 +329,7 @@ export default function Hero() {
             display: 'flex', 
             alignItems: 'center', 
             justifyContent: 'center',
-            transform: 'translateX(-8%)' /* 👇 This shifts the globe to the left */
+            transform: 'translateX(-6%)' /* 👇 This shifts the globe to the left */
           }}>
             <canvas
               ref={globeCanvasRef}
