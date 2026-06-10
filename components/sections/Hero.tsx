@@ -321,8 +321,16 @@ export default function Hero() {
         </div>
 
         {/* Right Side - Three.js Canvas Container */}
-        <div className="hero-right" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <div style={{ position: 'relative', width: 'min(620px, 90vw)', height: 'min(620px, 60vh)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="hero-right" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
+          <div style={{ 
+            position: 'relative', 
+            width: 'min(620px, 100vw)', 
+            height: 'min(620px, 60vh)', 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            transform: 'translateX(-4%)' /* 👇 This shifts the globe to the left */
+          }}>
             <canvas
               ref={globeCanvasRef}
               id="heroGlobe"
@@ -339,7 +347,6 @@ export default function Hero() {
           </div>
         </div>
       </div>
-
       {/* Stats Band */}
       <div className="stats-band" id="statsBand">
         <div className="stats-band-bg" />
